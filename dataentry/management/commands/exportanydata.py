@@ -3,6 +3,8 @@ from django.apps import apps
 from django.core.management.base import BaseCommand, CommandParser
 import datetime
 
+from dataentry.utils import generate_csv_path
+
 # proposed command = python manage.py exportanydata table-name
 class Command(BaseCommand):
     help = "Exported from data base any model in csv file"
@@ -27,11 +29,13 @@ class Command(BaseCommand):
         # fatch the data for database
         data = model.objects.all()
 
-        # generate the timestamp of crunat data and time
-        timestamp = datetime.datetime.now().strftime("%Y-%m-%d-%H-%M_%S")
+        # generate csv file path with helper function
+        file_path = generate_csv_path(model_name)
+        # # generate the timestamp of crunat data and time
+        # timestamp = datetime.datetime.now().strftime("%Y-%m-%d-%H-%M_%S")
 
-        #define the csv file name/path
-        file_path = f'export_{model_name}_data_{timestamp}.csv'
+        # #define the csv file name/path
+        # file_path = f'export_{model_name}_data_{timestamp}.csv'
 
         # open the scv file and write the data
         with open(file_path, 'w', newline='') as file:

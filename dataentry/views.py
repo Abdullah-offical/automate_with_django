@@ -5,7 +5,7 @@ from uploads.models import Upload
 from django.core.management import call_command # Triger the command from files
 
 from django.contrib import messages
-from .tasks import import_data_task
+from .tasks import import_data_task, export_data_task
 
 def import_data(request):
     if request.method == 'POST':
@@ -60,14 +60,16 @@ def import_data(request):
 def export_data(request):
     
     if request.method == 'POST':
-        try:
-            model_name = request.POST.get('model_name')
-            call_command('exportanydata', model_name)
-            
-        except Exception as e:
-            raise e
-        messages.success(request, "Data Export Successfully")
+        model_name = request.POST.get('model_name')
+        # call the export data task
+        export_data_task.delay(model_name)
+
+        # show message to the user
+        messages.success(request, 'Your data is exported, you will be notied one it is done.')
         return redirect('export_data')
+
+
+        
     else:
         custom_model = get_all_custom_models()
         context = {
