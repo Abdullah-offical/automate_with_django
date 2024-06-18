@@ -4,6 +4,7 @@ import time
 from django.core.management import call_command
 from django.conf import settings
 from django.core.mail import EmailMessage
+from .utils import send_email_notification
 
 @app.task
 def celery_test_task():
@@ -13,10 +14,9 @@ def celery_test_task():
 # send email 
     mail_subject = 'Test Subject'
     message = 'This is a test email'
-    from_email = settings.DEFAULT_FROM_EMAIL
     to_email = settings.DEFAULT_TO_EMAIL
-    mail = EmailMessage(mail_subject, message, from_email, to=[to_email])
-    mail.send()
+    # helper functions from utils.py
+    send_email_notification(mail_subject, message, to_email)
     return 'Email Send successfully'
 
 
@@ -27,5 +27,14 @@ def import_data_task(file_path, model_name):
         
     except Exception as e:
         raise e
+    
+
+    # notify the user by email
+
+    mail_subject = 'Import data'
+    message = 'Import Data in Data base'
+    to_email = settings.DEFAULT_TO_EMAIL
+    # helper functions from utils.py
+    send_email_notification(mail_subject, message, to_email)
     return 'DAta imported successfully.'
 
