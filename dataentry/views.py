@@ -2,7 +2,7 @@ from django.conf import settings
 from django.shortcuts import render, redirect
 from .utils import check_csv_errors, get_all_custom_models
 from uploads.models import Upload
-# from django.core.management import call_command # Triger the command from files
+from django.core.management import call_command # Triger the command from files
 
 from django.contrib import messages
 from .tasks import import_data_task
@@ -55,3 +55,22 @@ def import_data(request):
             'custom_models': custom_models
         }
     return render(request, 'dataentry/importdata.html', context)
+
+
+def export_data(request):
+    
+    if request.method == 'POST':
+        try:
+            model_name = request.POST.get('model_name')
+            call_command('exportanydata', model_name)
+            
+        except Exception as e:
+            raise e
+        messages.success(request, "Data Export Successfully")
+        return redirect('export_data')
+    else:
+        custom_model = get_all_custom_models()
+        context = {
+            'custom_models' : custom_model
+        }
+    return render(request, 'dataentry/exportdata.html', context)
