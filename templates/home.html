@@ -3,6 +3,7 @@
 
 {% block contant %}
 <div class="container" style="padding: 50px;">
+    {% if user.is_authenticated %}
     <h2 class="text-center">Automate The Boring Stuff With Django</h2>
     <div class="row pt-5">
         <!-- Import data -->
@@ -91,5 +92,20 @@
         </div>
     </div>
 </div>
+{% else %}
+<div class="home-info">
+    <h2 class="text-center">Automate the Buring Stuff with Django</h2>
+    <p class="lead text-center text-muted">
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa dicta 
+        cumque quibusdam aperiam eum, culpa suscipit, commodi eligendi atque 
+        ab voluptates quo id voluptatum reprehenderit autem doloremque saepe vel reiciendis molestias doloribus quidem quaerat, nobis natus mollitia! Pariatur quaerat impedit possimus nostrum incidunt, illum nulla atque assumenda quos odio deleniti. Commodi cumque magnam laborum in maxime autem eligendi.
+    </p>
+</div>
+<div style="display: flex; justify-content: center;">
+    <a href="{% url 'login' %}" class="btn btn-primary">LOGIN</a>
+    &nbsp;<a href="{% url 'register' %}" class="btn btn-success">REGISTER</a>
+</div>
+{% endif %}
+
 {% endblock contant %}
     
