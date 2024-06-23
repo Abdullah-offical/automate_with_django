@@ -32,7 +32,14 @@ def email_send(request):
             # print("======> ",to_email)
             
 
-            send_email_notification(mail_subject, message, to_email)
+            # send attachment
+            if email_form.attachment:
+                # tack email attachmenet to path of email file
+                attachment = email_form.attachment.path 
+            else:
+                attachment = None
+
+            send_email_notification(mail_subject, message, to_email, attachment)
 
 
 
