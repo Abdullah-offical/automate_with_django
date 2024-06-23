@@ -1,4 +1,6 @@
 from django.shortcuts import render, redirect
+
+from .tasks import send_email_task
 from .forms import EmailForm
 from django.contrib import messages
 from dataentry.utils import send_email_notification
@@ -39,7 +41,12 @@ def email_send(request):
             else:
                 attachment = None
 
-            send_email_notification(mail_subject, message, to_email, attachment)
+
+            #handover a success message with use celery
+            send_email_task.delay(mail_subject, message, to_email, attachment)
+
+            #without celery send email
+            # send_email_notification(mail_subject, message, to_email, attachment)
 
 
 
