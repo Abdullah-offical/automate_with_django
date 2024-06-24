@@ -76,6 +76,7 @@ def send_email_notification(mail_subject, message, to_email, attachment=None, em
                 )
 
             # Generate the tracking pixel
+            click_tracking_url = f"http://127.0.0.1:8000/emails/track/click/{unique_id}"
 
             # Search for the links in the gmial body
 

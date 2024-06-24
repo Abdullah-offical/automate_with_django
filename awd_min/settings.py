@@ -26,7 +26,7 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=False, cast=bool) # True or false
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*'] # link or star star men any web run 
 
 
 # Application definition
@@ -159,3 +159,8 @@ DEFAULT_TO_EMAIL = 'abdullahoffical821@gmail.com'
 
 
 CRISPY_TEMPLATE_PACK = 'bootstrap5'
+
+
+# Grok setuo
+CSRF_TRUSTED_ORIGINS = ['https://53a8-119-155-222-243.ngrok-free.app']
+BASE_URL = 'https://53a8-119-155-222-243.ngrok-free.app'
