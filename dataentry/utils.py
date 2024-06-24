@@ -1,5 +1,7 @@
 import datetime
+import hashlib
 import os
+import time
 from django.core.mail import EmailMessage
 from django.apps import apps
 from django.conf import settings
@@ -8,7 +10,7 @@ import csv
 
 from django.db import DataError
 
-from emails.models import Email, Sent
+from emails.models import Email, Sent, EmailTracking, Subscriber
 
 def get_all_custom_models():
     default_models = ['LogEntry', 'Permission', 'Group', 'ContentType', 'Session', 'Upload', 'User']
@@ -57,18 +59,40 @@ def check_csv_errors(file_path, model_name):
 def send_email_notification(mail_subject, message, to_email, attachment=None, email_id=None):
     try:
         from_email = settings.DEFAULT_FROM_EMAIL
-        mail = EmailMessage(mail_subject, message, from_email, to=to_email) # [to_email]
-        if attachment is not None:
-            mail.attach_file(attachment)
-        mail.content_subtype = "html" # html contant send 
-        mail.send()
+        for recipient_email in to_email:
+            #Create Email Tracking record
+            if email_id:
+                email = Email.objects.get(pk=email_id)
+                subscriber = Subscriber.objects.get(email_list=email.email_list, email_address=recipient_email)
+
+                timestamp = str(time.time())
+                data_to_hash = f"{recipient_email}{timestamp}"
+
+                unique_id = hashlib.sha256(data_to_hash.encode()).hexdigest()
+                email_tracking = EmailTracking.objects.create(
+                    email = email,
+                    subscriber = subscriber,
+                    unique_id = unique_id,
+                )
+
+            # Generate the tracking pixel
+
+            # Search for the links in the gmial body
+
+            # if there are liks or urls in the email body, inject our click tracking url to that link
+
+            mail = EmailMessage(mail_subject, message, from_email, to=to_email) # [to_email]
+            if attachment is not None:
+                mail.attach_file(attachment)
+            mail.content_subtype = "html" # html contant send 
+            mail.send()
 
         # Store the total sent emails inside the sent model
-        email = Email.objects.get(pk=email_id)
-        sent = Sent()
-        sent.email = email
-        sent.total_sent = email.email_list.count_emails()
-        sent.save()
+        if email:
+            sent = Sent()
+            sent.email = email
+            sent.total_sent = email.email_list.count_emails()
+            sent.save()
     except Exception as e:
         raise e
     
