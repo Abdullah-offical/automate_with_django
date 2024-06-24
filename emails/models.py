@@ -28,6 +28,19 @@ class Email(models.Model):
     def __str__(self):
         return self.subject
     
+
+
+
+
+class Sent(models.Model):
+    email = models.ForeignKey(Email, on_delete=models.CASCADE, null=True, blank=True)
+    total_sent = models.IntegerField()
+
+    def __str__(self):
+        return str(self.email) + ' - ' + str(self.total_sent) + ' emails sent' # email subject - 3 emails sent
+
+
+
 class EmailTracking(models.Model):
     email = models.ForeignKey(Email, on_delete=models.CASCADE, null=True, blank=True)
     Subscriber = models.ForeignKey(Subscriber, on_delete=models.CASCADE, null=True, blank=True)
