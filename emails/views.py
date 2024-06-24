@@ -5,7 +5,7 @@ from .forms import EmailForm
 from django.contrib import messages
 from dataentry.utils import send_email_notification
 from django.conf import settings
-from .models import Subscriber
+from .models import Email, Subscriber
 
 
 def email_send(request):
@@ -59,3 +59,17 @@ def email_send(request):
             'email_form' : email_form
         }
     return render(request, 'emails/email-send.html', context)
+
+
+def track_click(request):
+    return 
+
+def track_open(request):
+    return
+
+def track_dashboard(request):
+    emails = Email.objects.all()
+    context = {
+        'emails' : emails
+    }
+    return render(request, 'emails/track_dashboard.html', context)
