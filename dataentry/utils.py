@@ -11,6 +11,7 @@ import csv
 from django.db import DataError
 
 from emails.models import Email, Sent, EmailTracking, Subscriber
+from bs4 import BeautifulSoup
 
 def get_all_custom_models():
     default_models = ['LogEntry', 'Permission', 'Group', 'ContentType', 'Session', 'Upload', 'User']
@@ -75,10 +76,15 @@ def send_email_notification(mail_subject, message, to_email, attachment=None, em
                     unique_id = unique_id,
                 )
 
+            base_url = settings.BASE_URL
             # Generate the tracking pixel
-            click_tracking_url = f"http://127.0.0.1:8000/emails/track/click/{unique_id}"
+            click_tracking_url = f"{base_url}/emails/track/click/{unique_id}"
+            print("Tracking url  ===>  ", click_tracking_url)
 
             # Search for the links in the gmial body
+            soup = BeautifulSoup(message, 'html.parser')
+            urls = [a['href'] for a in soup.find_all('a', href=True)]
+                
 
             # if there are liks or urls in the email body, inject our click tracking url to that link
 
