@@ -22,7 +22,7 @@
                 <td><a href="{% url 'track_stats' email.id %}">{{ email.subject }}</a></td>
                 
                 <td>{{ email.email_list }}</td>
-                <td>{{ email.email_list.count_emails }}</td>
+                <td>{{ email.total_sent }}</td>
                 <td>
                     <div>0% Opened</div>
                     <div>0% Clicked</div>
