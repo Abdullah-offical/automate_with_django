@@ -35,7 +35,7 @@ def import_data_task(file_path, model_name):
     message = 'Import Data in Data base'
     to_email = settings.DEFAULT_TO_EMAIL
     # helper functions from utils.py
-    send_email_notification(mail_subject, message, to_email)
+    send_email_notification(mail_subject, message, [to_email])
     return 'DAta imported successfully.'
 
 
@@ -58,6 +58,6 @@ def export_data_task(model_name):
     message = 'Expoert data successful. Plase fine the attachment'
     to_email = settings.DEFAULT_TO_EMAIL
         # helper functions from utils.py
-    send_email_notification(mail_subject, message, to_email, attachment=file_path)  
+    send_email_notification(mail_subject, message, [to_email], attachment=file_path)
     return 'Export data task excuted successfully'   
 

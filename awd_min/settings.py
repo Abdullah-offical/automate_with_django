@@ -162,5 +162,5 @@ CRISPY_TEMPLATE_PACK = 'bootstrap5'
 
 
 # Grok setuo
-CSRF_TRUSTED_ORIGINS = ['https://53a8-119-155-222-243.ngrok-free.app']
-BASE_URL = 'https://53a8-119-155-222-243.ngrok-free.app'
+CSRF_TRUSTED_ORIGINS = ['https://86f2-119-155-174-118.ngrok-free.app']
+BASE_URL = 'https://86f2-119-155-174-118.ngrok-free.app'
