@@ -34,4 +34,6 @@ urlpatterns = [
 
     #emails app work
     path('emails/', include('emails.urls')),
+
+    path('webscraping/', include('stockanalysis.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
