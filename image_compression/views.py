@@ -28,7 +28,11 @@ def compress(request):
                 f'compressed_{original_img}', buffer
             )
 
-            return redirect('compress')
+            # Automatically download the compressed file
+            response = HttpResponse(buffer.getvalue(), content_type=f'image/{output_format.lower()}')
+            response['Content-Disposition'] = f'attachment; filename=compressed_{original_img}'
+            return response
+            # return redirect('compress')
     else:
         form = CompressImageForm()
         context = {
