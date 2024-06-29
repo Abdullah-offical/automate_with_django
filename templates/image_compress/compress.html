@@ -6,9 +6,9 @@
 
     <div class="container mt-5 p-3 shadow rounded" style="max-width: 600px;">
         <h2 class="text-center"> Compress Image</h2>
-        <form action="{% url 'email_send' %}" method="post" enctype="multipart/form-data">
+        <form action="{% url 'compress' %}" method="post" enctype="multipart/form-data">
             {% csrf_token %}
-            <div class="form-group">{{email_form | crispy }}</div>
+            <div class="form-group">{{form | crispy }}</div>
             <div class="form-group">
                 <input type="submit" value="Compress" class="btn btn-primary">
             </div>
